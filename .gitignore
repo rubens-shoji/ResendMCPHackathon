@@ -1,0 +1,5 @@
+.env
+emails.db
+mcp-email-manager
+node_modules
+*-lock.json
