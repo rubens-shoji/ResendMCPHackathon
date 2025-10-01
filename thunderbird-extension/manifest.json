@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  "name": "Email to AI Assistant",
+  "version": "1.0",
+  "description": "Envia emails recebidos para processamento com IA",
+  "applications": {
+    "gecko": {
+      "id": "email-ai-assistant@resend.dev",
+      "strict_min_version": "91.0"
+    }
+  },
+  "permissions": [
+    "messagesRead",
+    "accountsRead",
+    "messagesMove",
+    "http://localhost:3000/*",
+    "<all_urls>"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "message_display_action": {
+    "default_title": "Enviar para IA",
+    "default_icon": "icon.png"
+  }
+}
