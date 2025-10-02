@@ -234,22 +234,36 @@ async function startServer(
   app.post('/prompt', async (req, res) => {
     try {
       console.log(req.body)
-      const { voice_input } = req.body;
+      const { voice_input, text_input } = req.body;
+      const message = voice_input || text_input;
 
-      if (!voice_input) {
-        return res.status(400).json({ success: false, message: 'Message is required' });
+      if (!message) {
+        return res.status(400).json({ success: false, message: 'Message is required (voice_input or text_input)' });
       }
 
-      res.json({ success: true, response: "Email will be sent" });
+      if (voice_input) {
+        res.json({ success: true, response: "Email will be sent" });
 
-      await chatWithTools(
-        voice_input,
-        ollama,
-        mcpClients,
-        conversationHistory,
-        tools,
-        true
-      );
+        await chatWithTools(
+          message,
+          ollama,
+          mcpClients,
+          conversationHistory,
+          tools,
+          true
+        );
+      } else {
+        const response = await chatWithTools(
+          message,
+          ollama,
+          mcpClients,
+          conversationHistory,
+          tools,
+          true
+        );
+
+        res.json({ success: true, response });
+      }
 
     } catch (error: any) {
       res.status(500).json({ success: false, message: error.message });
